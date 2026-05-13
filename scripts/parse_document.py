@@ -110,7 +110,7 @@ def looks_like_heading(para) -> bool:
     t = para.text.strip()
     if not t:
         return False
-    if para.style.name.startswith("Heading"):
+    if para.style and para.style.name and para.style.name.startswith("Heading"):
         return True
     # Bold + short
     all_bold = all(run.bold for run in para.runs if run.text.strip())
