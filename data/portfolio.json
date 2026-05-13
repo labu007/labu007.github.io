@@ -1,78 +1,92 @@
 {
   "meta": {
-    "source_file": "resume.docx",
-    "generated": "2026-05-13T20:25:00.823292Z"
+    "source_file": "Dibakar_Barua_Portfolio_CV.docx",
+    "generated": "2026-05-13T21:06:50.356100Z"
   },
   "header": {
-    "name": "YOUR FULL NAME",
-    "email": "your.email@university.edu",
-    "phone": "+1 (555) 000-0000",
-    "location": "City, Country",
-    "linkedin": "https://linkedin.com/in/yourname",
-    "github": "https://github.com/yourusername",
-    "links": [
-      "https://scholar.google.com/citations?user=XXXX"
-    ]
+    "name": "DIBAKAR BARUA",
+    "email": "dibakarlabu@gmail.com",
+    "phone": "940-597-7847",
+    "linkedin": "linkedin.com/in/dibakarbarua"
   },
   "sections": {
     "about": {
-      "bio": "I am a graduate student in Data Science at the University of North Texas... ────────────────────────────"
+      "bio": "Machine Learning Engineer and Data Scientist with 2+ years of industry experience building and shipping ML/AI systems across NLP, Computer Vision, and predictive analytics. Skilled in Python, PyTorch, TensorFlow, and Scikit-learn, with hands-on experience across the full model lifecycle: data ingestion, feature engineering, model training, evaluation, and deployment. Currently a graduate researcher at the Visual Computing and Biometric Security Lab (UNT), applying computer vision to Autism Spectrum Disorder detection. Published at EMNLP 2025 (top-tier NLP venue). Strong academic record (GPA 3.91, MS Data Science, University of North Texas). Seeking full-time roles in ML Engineering, Data Science, or Applied AI."
     },
     "education": [
       {
-        "title": "Master of Science in Data Science — University of North Texas",
+        "title": "M.Sc. in Data Science — University of North Texas",
         "details": [],
         "year": ""
       },
       {
-        "title": "2023 – Present",
+        "title": "Denton, TX | Expected Dec 2026 | GPA: 3.91 / 4.00",
         "details": [
-          "Thesis: A Novel Deep Learning Framework for EEG-Based Emotion Recognition",
-          "Advisor: Prof. [Name]",
-          "GPA: 3.9 / 4.0",
-          "Bachelor of Science in Computer Engineering — [University]"
+          "Coursework: Machine Learning, Deep Learning, Health Info Analytics, Statistical Modeling, Big Data Analytics, Data Visualization",
+          "B.Sc. in Computer Science and Software Engineering — American International University Bangladesh"
         ],
-        "year": "2023"
+        "year": "2026"
       },
       {
-        "title": "2019 – 2023",
+        "title": "Dhaka, Bangladesh | Graduated Aug 2021 | GPA: 3.95 / 4.00",
         "details": [
-          "First Class Honours, GPA: 3.85/4.0"
+          "Dean's Honors List, Summa Cum Laude"
         ],
-        "year": "2019"
-      },
-      {
-        "title": "Dean's List 2022, 2023",
-        "details": [
-          "────────────────────────────"
-        ],
-        "year": "2022"
+        "year": "2021"
       }
     ],
     "experience": [
       {
-        "title": "Graduate Research Assistant — [Lab Name], University of North Texas",
+        "title": "Thesis Research — Visual Computing and Biometric Security Lab, UNT",
         "details": [],
         "year": ""
       },
       {
-        "title": "2023 – Present",
+        "title": "Denton, TX | August 2025 – Present",
         "details": [
-          "Leading experiments in EEG signal classification",
-          "Developed preprocessing pipelines reducing time by 40%",
-          "Co-authored 2 papers under review",
-          "Data Science Intern — [Company], Dallas TX"
+          "Conduct computer vision research on Autism Spectrum Disorder (ASD) detection using deep learning models trained on behavioral and image-based datasets.",
+          "Design and evaluate CNN architectures for pattern recognition tasks relevant to ASD trait classification, contributing to an ongoing lab publication pipeline.",
+          "Apply transfer learning, data augmentation, and model interpretability techniques (Grad-CAM) to improve diagnostic transparency.",
+          "Collaborate with faculty and lab members on AI/ML research methodologies, experimental design, and result analysis.",
+          "Junior Machine Learning Engineer — Brain Station 23"
+        ],
+        "year": "2025"
+      },
+      {
+        "title": "Dhaka, Bangladesh | Jan 2023 – Dec 2024",
+        "details": [
+          "Built and deployed end-to-end ML pipelines for 5+ client projects spanning NLP, classification, and regression using Python, PyTorch, and Scikit-learn.",
+          "Processed and cleaned datasets with 100K+ records, addressing class imbalance, missing values, and feature drift to ensure reliable model inputs.",
+          "Trained and tuned supervised learning models including Random Forest, XGBoost, LSTM, and BERT; improved baseline accuracy by up to 15% through hyperparameter search and ensemble methods.",
+          "Built Tableau and Matplotlib dashboards to communicate model performance and business impact to non-technical stakeholders.",
+          "Collaborated closely with software engineers, product managers, and domain experts to align model outputs with real-world deployment requirements.",
+          "Student Assistant — University of North Texas"
         ],
         "year": "2023"
       },
       {
-        "title": "Summer 2023",
+        "title": "Denton, TX | Jun 2025 – Present",
         "details": [
-          "Built ML pipeline for customer churn prediction",
-          "Improved F1-score by 18% through feature engineering",
-          "────────────────────────────"
+          "Developed skills in team coordination, event management, and time management in a high-traffic service environment.",
+          "IT Intern (GIS and Data Visualization) — Bakhrabad Gas Distribution Co. Ltd."
         ],
-        "year": "2023"
+        "year": "2025"
+      },
+      {
+        "title": "Cumilla, Bangladesh | Oct 2022 – Jan 2023",
+        "details": [
+          "Digitized 161 analog infrastructure maps and visualized spatial data for CNG stations, industrial facilities, and captive power locations using QGIS.",
+          "Supported a government-sponsored digital transformation initiative under the Ministry of Power, Energy and Mineral Resources.",
+          "Teaching Assistant, Object Oriented Programming II (C#) — American International University Bangladesh"
+        ],
+        "year": "2022"
+      },
+      {
+        "title": "Dhaka, Bangladesh | Jun 2021 – Aug 2021",
+        "details": [
+          "Supported 80+ students on programming assignments and lab tasks in C#; provided hands-on help with Visual Studio, XAMPP, and GitHub."
+        ],
+        "year": "2021"
       }
     ],
     "skills": [
@@ -80,142 +94,194 @@
         "category": "Programming Languages",
         "items": [
           "Python",
-          "MATLAB",
-          "R",
+          "SQL",
+          "C#",
           "C++",
-          "JavaScript"
+          "Java",
+          "MATLAB"
         ]
       },
       {
-        "category": "ML / AI",
+        "category": "ML / DL Frameworks",
         "items": [
           "PyTorch",
           "TensorFlow",
           "Scikit-learn",
-          "HuggingFace"
+          "Keras",
+          "HuggingFace Transformers",
+          "OpenCV"
         ]
       },
       {
-        "category": "Data & Analysis",
+        "category": "NLP and GenAI",
+        "items": [
+          "BERT",
+          "GPT",
+          "RAG",
+          "LLM Fine-tuning",
+          "NLTK",
+          "SpaCy",
+          "Prompt Engineering"
+        ]
+      },
+      {
+        "category": "Computer Vision",
+        "items": [
+          "EfficientNet",
+          "ResNet",
+          "CNNs",
+          "Grad-CAM",
+          "Image Classification",
+          "Object Detection"
+        ]
+      },
+      {
+        "category": "Data Analysis",
         "items": [
           "Pandas",
           "NumPy",
-          "SQL",
-          "Tableau"
+          "SciPy",
+          "Feature Engineering",
+          "Statistical Modeling",
+          "A/B Testing"
         ]
       },
       {
-        "category": "Dev Tools",
+        "category": "Visualization",
         "items": [
-          "Git",
+          "Tableau",
+          "Power BI",
+          "Matplotlib",
+          "Seaborn"
+        ]
+      },
+      {
+        "category": "Databases",
+        "items": [
+          "MS SQL Server",
+          "MySQL",
+          "Oracle Database"
+        ]
+      },
+      {
+        "category": "Cloud and MLOps",
+        "items": [
+          "AWS (S3",
+          "EC2)",
           "Docker",
-          "Linux",
-          "LaTeX"
+          "Git",
+          "GitHub",
+          "Streamlit",
+          "REST APIs",
+          "Model Deployment"
         ]
       },
       {
-        "category": "Web & Viz",
+        "category": "Tools",
         "items": [
-          "Streamlit",
-          "FastAPI",
-          "D3.js",
-          "Plotly",
-          "────────────────────────────"
+          "Jupyter Notebook",
+          "Google Colab",
+          "VS Code",
+          "QGIS",
+          "Jira",
+          "Trello"
         ]
       }
     ],
     "projects": [
       {
-        "title": "EEG Emotion Recognition Framework",
-        "details": [
-          "type:research",
-          "Novel deep learning architecture achieving 94.2% accuracy on DEAP dataset",
-          "Outperforms SOTA by 8.3% using hybrid CNN-Transformer design",
-          "Manuscript in preparation for IEEE Transactions",
-          "Open-Source EEG Preprocessing Toolkit",
-          "type:engineering",
-          "Python library used by 12+ labs worldwide",
-          "200+ GitHub stars, fully documented",
-          "────────────────────────────"
-        ],
+        "title": "Clickbait Headline Detection — NLP / Web App, University of North Texas",
+        "details": [],
         "year": ""
+      },
+      {
+        "title": "Jan 2025 – Apr 2025",
+        "details": [
+          "Built and compared three ML models for real-time clickbait detection: Logistic Regression (TF-IDF), LSTM, and fine-tuned BERT, achieving 99% classification accuracy with BERT.",
+          "Managed the complete pipeline from data collection and preprocessing to tokenization, training, evaluation (F1, precision, recall, AUC), and deployment.",
+          "Deployed the app using Streamlit with a REST API backend, enabling live inference on user-submitted headlines.",
+          "type:research",
+          "AI-Based Diabetic Retinopathy Detection — Computer Vision, University of North Texas"
+        ],
+        "year": "2025"
+      },
+      {
+        "title": "Jan 2025 – Apr 2025",
+        "details": [
+          "Designed and benchmarked EfficientNet-B0 and ResNet-50 for automated multi-class retinopathy detection from retinal fundus images using PyTorch.",
+          "EfficientNet-B0 reached 80% accuracy across 5 severity levels; applied transfer learning and data augmentation to handle class imbalance in the medical dataset.",
+          "Used Grad-CAM to generate saliency maps that highlight disease-relevant retinal regions, adding clinical interpretability to model predictions.",
+          "type:research",
+          "ASD Detection Research System — Computer Vision, UNT Lab"
+        ],
+        "year": "2025"
+      },
+      {
+        "title": "Aug 2025 – Present",
+        "details": [
+          "Designing CNN-based deep learning architectures for Autism Spectrum Disorder trait classification from behavioral and image-based datasets.",
+          "Applying Grad-CAM for model interpretability and transfer learning for improved generalization on limited medical data.",
+          "type:research"
+        ],
+        "year": "2025"
       }
     ],
     "publications": [
       {
-        "title": "A Hybrid CNN-Transformer for EEG-Based Emotion Recognition",
+        "title": "Speaking at the Right Level: Literacy-Controlled Counterspeech Generation with RAG-RL",
         "year": "",
-        "venue": "IEEE Transactions on Neural Systems and Rehabilitation Engineering",
-        "type": "conference"
-      },
-      {
-        "title": "2024",
-        "year": "2024",
-        "venue": "Cross-Subject EEG Transfer Learning via Domain Adaptation",
-        "type": "conference"
-      },
-      {
-        "title": "Proceedings of IEEE EMBC 2023",
-        "year": "2023",
         "venue": "",
-        "type": "journal"
+        "type": "conference"
       },
       {
-        "title": "2023",
-        "year": "2023",
-        "venue": "────────────────────────────",
+        "title": "EMNLP 2025 — Empirical Methods in Natural Language Processing (top-tier ACL venue)",
+        "year": "2025",
+        "venue": "",
+        "type": "conference"
+      },
+      {
+        "title": "2025",
+        "year": "2025",
+        "venue": "• Built an LLM-based counterspeech generation system using Retrieval-Augmented Generation (RAG) and Reinforcement Learning (RL) to combat online hate speech with responses tailored to three user literacy levels.",
+        "type": "conference"
+      },
+      {
+        "title": "2022",
+        "year": "2022",
+        "venue": "• Built a hybrid model combining SVM and CNN to predict ASD traits from behavioral datasets, achieving 94% classification accuracy after a review of 25+ prior research papers.",
         "type": "conference"
       }
     ],
     "awards": [
       {
-        "name": "Best Paper Award — IEEE EMBC 2024",
-        "year": "2024",
+        "name": "Published at EMNLP 2025 — Top-tier NLP venue (ACL Anthology)",
+        "year": "2025",
         "org": ""
       },
       {
-        "name": "2024",
-        "year": "2024",
+        "name": "2025",
+        "year": "2025",
         "org": ""
       },
       {
-        "name": "IEEE",
+        "name": "Dean's Honors List — American International University Bangladesh",
         "year": "",
         "org": ""
       },
       {
-        "name": "Graduate Research Fellowship",
+        "name": "2021",
+        "year": "2021",
+        "org": ""
+      },
+      {
+        "name": "Summa Cum Laude — American International University Bangladesh",
         "year": "",
         "org": ""
       },
       {
-        "name": "2023",
-        "year": "2023",
+        "name": "2021",
+        "year": "2021",
         "org": ""
-      },
-      {
-        "name": "NSF",
-        "year": "",
-        "org": ""
-      },
-      {
-        "name": "────────────────────────────",
-        "year": "",
-        "org": ""
-      }
-    ],
-    "certifications": [
-      {
-        "title": "Deep Learning Specialization — Coursera / Andrew Ng",
-        "details": [],
-        "year": ""
-      },
-      {
-        "title": "2023",
-        "details": [
-          "5-course specialization covering CNNs, RNNs, and Transformers"
-        ],
-        "year": "2023"
       }
     ]
   }
