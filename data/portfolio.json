@@ -1,18 +1,22 @@
 {
   "meta": {
-    "source_file": "sample_resume.docx",
-    "generated": "2026-05-11T23:19:19.819786Z"
+    "source_file": "resume.docx",
+    "generated": "2026-05-13T20:25:00.823292Z"
   },
   "header": {
-    "location": "Alex Johnson",
-    "name": "Alex Johnson",
-    "email": "alex@unt.edu",
-    "linkedin": "https://linkedin.com/in/alexjohnson",
-    "github": "https://github.com/alexjohnson"
+    "name": "YOUR FULL NAME",
+    "email": "your.email@university.edu",
+    "phone": "+1 (555) 000-0000",
+    "location": "City, Country",
+    "linkedin": "https://linkedin.com/in/yourname",
+    "github": "https://github.com/yourusername",
+    "links": [
+      "https://scholar.google.com/citations?user=XXXX"
+    ]
   },
   "sections": {
     "about": {
-      "bio": "Graduate student in Data Science at UNT, working on EEG-based emotion recognition using deep learning. Passionate about building tools that bridge research and real-world impact."
+      "bio": "I am a graduate student in Data Science at the University of North Texas... ────────────────────────────"
     },
     "education": [
       {
@@ -23,9 +27,10 @@
       {
         "title": "2023 – Present",
         "details": [
-          "Thesis: Hybrid CNN-Transformer for EEG Emotion Recognition",
+          "Thesis: A Novel Deep Learning Framework for EEG-Based Emotion Recognition",
+          "Advisor: Prof. [Name]",
           "GPA: 3.9 / 4.0",
-          "Bachelor of Science in Computer Engineering — Texas A&M"
+          "Bachelor of Science in Computer Engineering — [University]"
         ],
         "year": "2023"
       },
@@ -35,28 +40,37 @@
           "First Class Honours, GPA: 3.85/4.0"
         ],
         "year": "2019"
+      },
+      {
+        "title": "Dean's List 2022, 2023",
+        "details": [
+          "────────────────────────────"
+        ],
+        "year": "2022"
       }
     ],
     "experience": [
       {
-        "title": "Graduate Research Assistant — NeuroAI Lab, UNT",
+        "title": "Graduate Research Assistant — [Lab Name], University of North Texas",
         "details": [],
         "year": ""
       },
       {
         "title": "2023 – Present",
         "details": [
-          "Led EEG preprocessing pipeline, reduced time by 40%",
+          "Leading experiments in EEG signal classification",
+          "Developed preprocessing pipelines reducing time by 40%",
           "Co-authored 2 papers under review",
-          "Data Science Intern — DataCorp, Dallas TX"
+          "Data Science Intern — [Company], Dallas TX"
         ],
         "year": "2023"
       },
       {
         "title": "Summer 2023",
         "details": [
-          "Built ML pipeline for churn prediction",
-          "Improved F1 by 18%"
+          "Built ML pipeline for customer churn prediction",
+          "Improved F1-score by 18% through feature engineering",
+          "────────────────────────────"
         ],
         "year": "2023"
       }
@@ -68,7 +82,8 @@
           "Python",
           "MATLAB",
           "R",
-          "C++"
+          "C++",
+          "JavaScript"
         ]
       },
       {
@@ -76,7 +91,17 @@
         "items": [
           "PyTorch",
           "TensorFlow",
-          "Scikit-learn"
+          "Scikit-learn",
+          "HuggingFace"
+        ]
+      },
+      {
+        "category": "Data & Analysis",
+        "items": [
+          "Pandas",
+          "NumPy",
+          "SQL",
+          "Tableau"
         ]
       },
       {
@@ -84,8 +109,18 @@
         "items": [
           "Git",
           "Docker",
-          "LaTeX",
-          "Linux"
+          "Linux",
+          "LaTeX"
+        ]
+      },
+      {
+        "category": "Web & Viz",
+        "items": [
+          "Streamlit",
+          "FastAPI",
+          "D3.js",
+          "Plotly",
+          "────────────────────────────"
         ]
       }
     ],
@@ -94,31 +129,33 @@
         "title": "EEG Emotion Recognition Framework",
         "details": [
           "type:research",
-          "94.2% accuracy on DEAP dataset",
-          "Manuscript in prep for IEEE TNSRE",
-          "EEG Toolkit (open-source)",
+          "Novel deep learning architecture achieving 94.2% accuracy on DEAP dataset",
+          "Outperforms SOTA by 8.3% using hybrid CNN-Transformer design",
+          "Manuscript in preparation for IEEE Transactions",
+          "Open-Source EEG Preprocessing Toolkit",
           "type:engineering",
-          "200+ GitHub stars",
-          "Used by 12+ labs worldwide"
+          "Python library used by 12+ labs worldwide",
+          "200+ GitHub stars, fully documented",
+          "────────────────────────────"
         ],
         "year": ""
       }
     ],
     "publications": [
       {
-        "title": "A Hybrid CNN-Transformer for EEG Emotion Recognition",
+        "title": "A Hybrid CNN-Transformer for EEG-Based Emotion Recognition",
         "year": "",
-        "venue": "IEEE Transactions on Neural Systems",
+        "venue": "IEEE Transactions on Neural Systems and Rehabilitation Engineering",
         "type": "conference"
       },
       {
         "title": "2024",
         "year": "2024",
-        "venue": "Cross-Subject EEG Transfer Learning",
+        "venue": "Cross-Subject EEG Transfer Learning via Domain Adaptation",
         "type": "conference"
       },
       {
-        "title": "Proceedings IEEE EMBC 2023",
+        "title": "Proceedings of IEEE EMBC 2023",
         "year": "2023",
         "venue": "",
         "type": "journal"
@@ -126,7 +163,7 @@
       {
         "title": "2023",
         "year": "2023",
-        "venue": "",
+        "venue": "────────────────────────────",
         "type": "conference"
       }
     ],
@@ -160,6 +197,25 @@
         "name": "NSF",
         "year": "",
         "org": ""
+      },
+      {
+        "name": "────────────────────────────",
+        "year": "",
+        "org": ""
+      }
+    ],
+    "certifications": [
+      {
+        "title": "Deep Learning Specialization — Coursera / Andrew Ng",
+        "details": [],
+        "year": ""
+      },
+      {
+        "title": "2023",
+        "details": [
+          "5-course specialization covering CNNs, RNNs, and Transformers"
+        ],
+        "year": "2023"
       }
     ]
   }
