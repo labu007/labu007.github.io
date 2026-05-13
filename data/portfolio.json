@@ -7,7 +7,7 @@
     "name": "DIBAKAR BARUA",
     "email": "dibakarlabu@gmail.com",
     "phone": "940-597-7847",
-    "linkedin": "linkedin.com/in/dibakarbarua"
+    "linkedin": "https://www.linkedin.com/in/dibakar-barua-4a28b820b/"
   },
   "sections": {
     "about": {
@@ -17,7 +17,7 @@
       {
         "title": "M.Sc. in Data Science — University of North Texas",
         "details": [],
-        "year": ""
+        "year": "January 2025 - December 2026"
       },
       {
         "title": "Denton, TX | Expected Dec 2026 | GPA: 3.91 / 4.00",
@@ -48,7 +48,6 @@
           "Design and evaluate CNN architectures for pattern recognition tasks relevant to ASD trait classification, contributing to an ongoing lab publication pipeline.",
           "Apply transfer learning, data augmentation, and model interpretability techniques (Grad-CAM) to improve diagnostic transparency.",
           "Collaborate with faculty and lab members on AI/ML research methodologies, experimental design, and result analysis.",
-          "Junior Machine Learning Engineer — Brain Station 23"
         ],
         "year": "2025"
       },
@@ -200,7 +199,7 @@
           "Built and compared three ML models for real-time clickbait detection: Logistic Regression (TF-IDF), LSTM, and fine-tuned BERT, achieving 99% classification accuracy with BERT.",
           "Managed the complete pipeline from data collection and preprocessing to tokenization, training, evaluation (F1, precision, recall, AUC), and deployment.",
           "Deployed the app using Streamlit with a REST API backend, enabling live inference on user-submitted headlines.",
-          "type:research",
+          "type:Class Project",
           "AI-Based Diabetic Retinopathy Detection — Computer Vision, University of North Texas"
         ],
         "year": "2025"
@@ -211,8 +210,8 @@
           "Designed and benchmarked EfficientNet-B0 and ResNet-50 for automated multi-class retinopathy detection from retinal fundus images using PyTorch.",
           "EfficientNet-B0 reached 80% accuracy across 5 severity levels; applied transfer learning and data augmentation to handle class imbalance in the medical dataset.",
           "Used Grad-CAM to generate saliency maps that highlight disease-relevant retinal regions, adding clinical interpretability to model predictions.",
-          "type:research",
-          "ASD Detection Research System — Computer Vision, UNT Lab"
+          "type:Class Project",
+          "AI-Based Diabetic Retinopathy Detection "
         ],
         "year": "2025"
       },
@@ -240,12 +239,6 @@
         "type": "conference"
       },
       {
-        "title": "2025",
-        "year": "2025",
-        "venue": "• Built an LLM-based counterspeech generation system using Retrieval-Augmented Generation (RAG) and Reinforcement Learning (RL) to combat online hate speech with responses tailored to three user literacy levels.",
-        "type": "conference"
-      },
-      {
         "title": "2022",
         "year": "2022",
         "venue": "• Built a hybrid model combining SVM and CNN to predict ASD traits from behavioral datasets, achieving 94% classification accuracy after a review of 25+ prior research papers.",
@@ -259,30 +252,17 @@
         "org": ""
       },
       {
-        "name": "2025",
-        "year": "2025",
-        "org": ""
-      },
-      {
         "name": "Dean's Honors List — American International University Bangladesh",
         "year": "",
         "org": ""
       },
-      {
-        "name": "2021",
-        "year": "2021",
-        "org": ""
-      },
+
       {
         "name": "Summa Cum Laude — American International University Bangladesh",
         "year": "",
         "org": ""
       },
-      {
-        "name": "2021",
-        "year": "2021",
-        "org": ""
-      }
+
     ]
   }
 }
