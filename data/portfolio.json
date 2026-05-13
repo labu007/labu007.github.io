@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "source_file": "sample_resume.docx",
+    "generated": "2026-05-11T23:19:19.819786Z"
+  },
+  "header": {
+    "location": "Alex Johnson",
+    "name": "Alex Johnson",
+    "email": "alex@unt.edu",
+    "linkedin": "https://linkedin.com/in/alexjohnson",
+    "github": "https://github.com/alexjohnson"
+  },
+  "sections": {
+    "about": {
+      "bio": "Graduate student in Data Science at UNT, working on EEG-based emotion recognition using deep learning. Passionate about building tools that bridge research and real-world impact."
+    },
+    "education": [
+      {
+        "title": "Master of Science in Data Science — University of North Texas",
+        "details": [],
+        "year": ""
+      },
+      {
+        "title": "2023 – Present",
+        "details": [
+          "Thesis: Hybrid CNN-Transformer for EEG Emotion Recognition",
+          "GPA: 3.9 / 4.0",
+          "Bachelor of Science in Computer Engineering — Texas A&M"
+        ],
+        "year": "2023"
+      },
+      {
+        "title": "2019 – 2023",
+        "details": [
+          "First Class Honours, GPA: 3.85/4.0"
+        ],
+        "year": "2019"
+      }
+    ],
+    "experience": [
+      {
+        "title": "Graduate Research Assistant — NeuroAI Lab, UNT",
+        "details": [],
+        "year": ""
+      },
+      {
+        "title": "2023 – Present",
+        "details": [
+          "Led EEG preprocessing pipeline, reduced time by 40%",
+          "Co-authored 2 papers under review",
+          "Data Science Intern — DataCorp, Dallas TX"
+        ],
+        "year": "2023"
+      },
+      {
+        "title": "Summer 2023",
+        "details": [
+          "Built ML pipeline for churn prediction",
+          "Improved F1 by 18%"
+        ],
+        "year": "2023"
+      }
+    ],
+    "skills": [
+      {
+        "category": "Programming Languages",
+        "items": [
+          "Python",
+          "MATLAB",
+          "R",
+          "C++"
+        ]
+      },
+      {
+        "category": "ML / AI",
+        "items": [
+          "PyTorch",
+          "TensorFlow",
+          "Scikit-learn"
+        ]
+      },
+      {
+        "category": "Dev Tools",
+        "items": [
+          "Git",
+          "Docker",
+          "LaTeX",
+          "Linux"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "title": "EEG Emotion Recognition Framework",
+        "details": [
+          "type:research",
+          "94.2% accuracy on DEAP dataset",
+          "Manuscript in prep for IEEE TNSRE",
+          "EEG Toolkit (open-source)",
+          "type:engineering",
+          "200+ GitHub stars",
+          "Used by 12+ labs worldwide"
+        ],
+        "year": ""
+      }
+    ],
+    "publications": [
+      {
+        "title": "A Hybrid CNN-Transformer for EEG Emotion Recognition",
+        "year": "",
+        "venue": "IEEE Transactions on Neural Systems",
+        "type": "conference"
+      },
+      {
+        "title": "2024",
+        "year": "2024",
+        "venue": "Cross-Subject EEG Transfer Learning",
+        "type": "conference"
+      },
+      {
+        "title": "Proceedings IEEE EMBC 2023",
+        "year": "2023",
+        "venue": "",
+        "type": "journal"
+      },
+      {
+        "title": "2023",
+        "year": "2023",
+        "venue": "",
+        "type": "conference"
+      }
+    ],
+    "awards": [
+      {
+        "name": "Best Paper Award — IEEE EMBC 2024",
+        "year": "2024",
+        "org": ""
+      },
+      {
+        "name": "2024",
+        "year": "2024",
+        "org": ""
+      },
+      {
+        "name": "IEEE",
+        "year": "",
+        "org": ""
+      },
+      {
+        "name": "Graduate Research Fellowship",
+        "year": "",
+        "org": ""
+      },
+      {
+        "name": "2023",
+        "year": "2023",
+        "org": ""
+      },
+      {
+        "name": "NSF",
+        "year": "",
+        "org": ""
+      }
+    ]
+  }
+}
