@@ -2,435 +2,414 @@
 """
 portfolio-system/scripts/parse_document.py
 -------------------------------------------
-Reads a .docx or .pdf resume/CV and writes structured data to
+Reads a .docx or .pdf resume and writes structured data to
 data/portfolio.json for the frontend to consume.
 
 Usage:
-    python parse_document.py ../docs-upload/resume.docx
-    python parse_document.py ../docs-upload/resume.pdf
+    python parse_document.py ../docs-upload/Dibakar_Barua_Resume.pdf
+    python parse_document.py ../docs-upload/Dibakar_Barua_Resume.docx
+
+Schema output (data/portfolio.json):
+    header      → name, email, phone, location, linkedin, github
+    about       → bio (professional summary)
+    education   → list of { degree, institution, location, year, gpa, details[] }
+    experience  → list of { role, org, location, period, details[] }
+    skills      → dict of { category: [skill, ...] }
+    projects    → list of { name, type, period, details[] }
+    publications→ list of { title, venue, org, year, abstract }
+    awards      → list of { name, year, org }
 """
 
-import sys
-import json
-import re
-import os
+import sys, re, json, os
 from pathlib import Path
+from datetime import datetime
 
 # ─── Section aliases ────────────────────────────────────────────────────────
-# Maps any heading variant found in a document → a canonical section key.
 SECTION_MAP = {
     # education
     "education": "education",
     "academic background": "education",
     "academic foundation": "education",
-    "academic qualifications": "education",
     "qualifications": "education",
-    "degrees": "education",
-
     # experience
     "experience": "experience",
     "work experience": "experience",
     "professional experience": "experience",
+    "employment": "experience",
     "research experience": "experience",
-    "industry experience": "experience",
-    "internships": "experience",
-
     # skills
     "skills": "skills",
     "technical skills": "skills",
     "technical expertise": "skills",
     "core competencies": "skills",
-    "competencies": "skills",
-    "tools & technologies": "skills",
-    "tools and technologies": "skills",
-    "programming languages": "skills",
-
+    "technologies": "skills",
     # projects
     "projects": "projects",
-    "research projects": "projects",
-    "key projects": "projects",
+    "machine learning & data science projects": "projects",
+    "ml & data science projects": "projects",
     "selected projects": "projects",
-    "portfolio": "projects",
-
+    "research projects": "projects",
     # publications
     "publications": "publications",
+    "publications & research": "publications",
     "research publications": "publications",
     "papers": "publications",
-    "journal articles": "publications",
-    "conference papers": "publications",
-    "preprints": "publications",
-
     # awards
     "awards": "awards",
     "honors": "awards",
-    "honours": "awards",
     "achievements": "awards",
-    "awards & honors": "awards",
-    "awards and honors": "awards",
-    "recognition": "awards",
-    "scholarships": "awards",
-
-    # about / summary
+    "certifications": "awards",
+    "honors & awards": "awards",
+    # summary / about
     "summary": "about",
+    "professional summary": "about",
     "about": "about",
     "profile": "about",
     "objective": "about",
-    "professional summary": "about",
-    "about me": "about",
-    "overview": "about",
-
-    # certifications
-    "certifications": "certifications",
-    "certificates": "certifications",
-    "courses": "certifications",
-    "online courses": "certifications",
-    "professional development": "certifications",
-
-    # leadership
-    "leadership": "leadership",
-    "service": "leadership",
-    "volunteer": "leadership",
-    "community service": "leadership",
-    "extracurricular": "leadership",
-    "activities": "leadership",
 }
 
-# ─── Helpers ─────────────────────────────────────────────────────────────────
+# Skill category keywords for grouping
+SKILL_CATEGORIES = [
+    "programming languages",
+    "ml",
+    "deep learning",
+    "nlp",
+    "generative ai",
+    "computer vision",
+    "data science",
+    "analytics",
+    "mlops",
+    "tools",
+    "databases",
+    "cloud",
+    "visualization",
+]
 
-def normalise(text: str) -> str:
-    return re.sub(r"\s+", " ", text).strip().lower()
+# ─── Text extraction ─────────────────────────────────────────────────────────
 
-def detect_section(text: str) -> str | None:
-    """Return canonical section key if text looks like a section heading."""
-    key = normalise(text)
-    return SECTION_MAP.get(key)
+def extract_text_pdf(path: str) -> list[str]:
+    """Extract lines from PDF using PyMuPDF."""
+    try:
+        import fitz  # pymupdf
+        doc = fitz.open(path)
+        lines = []
+        for page in doc:
+            for line in page.get_text("text").splitlines():
+                lines.append(line)
+        return lines
+    except ImportError:
+        raise RuntimeError("PyMuPDF not installed. Run: pip install pymupdf")
 
-def looks_like_heading(para) -> bool:
-    """Heuristic for docx paragraphs: bold, short, all-caps, or heading style."""
-    t = para.text.strip()
-    if not t:
-        return False
-    if para.style and para.style.name and para.style.name.startswith("Heading"):
-        return True
-    # Bold + short
-    all_bold = all(run.bold for run in para.runs if run.text.strip())
-    if all_bold and len(t) < 60:
-        return True
-    # ALL CAPS short line
-    if t.isupper() and len(t) < 60:
-        return True
-    return False
+def extract_text_docx(path: str) -> list[str]:
+    """Extract lines from DOCX using python-docx."""
+    try:
+        from docx import Document
+        doc = Document(path)
+        lines = []
+        for para in doc.paragraphs:
+            lines.append(para.text)
+        return lines
+    except ImportError:
+        raise RuntimeError("python-docx not installed. Run: pip install python-docx")
 
-def clean(text: str) -> str:
-    return re.sub(r"\s+", " ", text).strip()
-
-# ─── DOCX parser ─────────────────────────────────────────────────────────────
-
-def parse_docx(path: str) -> dict:
-    from docx import Document
-    doc = Document(path)
-    sections: dict[str, list[str]] = {}
-    current = None
-    header_info: dict = {}   # name, email, links etc. from top of doc
-
-    # First pass: grab contact info from the very first non-section lines
-    preamble_done = False
-
-    for para in doc.paragraphs:
-        text = clean(para.text)
-        if not text:
-            continue
-
-        # Check if this paragraph is a section heading
-        sec = detect_section(text)
-        if sec or looks_like_heading(para):
-            resolved = sec if sec else None
-            if resolved:
-                current = resolved
-                if current not in sections:
-                    sections[current] = []
-                preamble_done = True
-                continue
-            else:
-                # Unknown heading — treat as new unlabelled block, keep current
-                pass
-
-        if not preamble_done:
-            # We're still in the header area — try to extract contact info
-            _extract_contact(text, header_info)
-            # If no section yet and this is name-like (first non-empty line)
-            if "name" not in header_info:
-                header_info["name"] = text
-            continue
-
-        if current:
-            sections[current].append(text)
-
-    return {"header": header_info, "sections": sections}
-
-def _extract_contact(text: str, info: dict):
-    email_m = re.search(r"[\w.+-]+@[\w.-]+\.[a-zA-Z]{2,}", text)
-    if email_m:
-        info["email"] = email_m.group()
-    phone_m = re.search(r"[\+\d][\d\s\-\(\)]{7,}", text)
-    if phone_m:
-        info["phone"] = phone_m.group().strip()
-    url_m = re.search(r"(https?://\S+|linkedin\.com\S*|github\.com\S*)", text, re.I)
-    if url_m:
-        u = url_m.group()
-        if "linkedin" in u.lower():
-            info["linkedin"] = u
-        elif "github" in u.lower():
-            info["github"] = u
-        else:
-            info.setdefault("links", []).append(u)
-    loc_m = re.search(r"\b([A-Z][a-z]+(?:,\s*[A-Z]{2,})?)\b", text)
-    if loc_m and "location" not in info and len(text) < 40:
-        info["location"] = text
-
-# ─── PDF parser ──────────────────────────────────────────────────────────────
-
-def parse_pdf(path: str) -> dict:
-    import fitz  # pymupdf
-    doc = fitz.open(path)
-    sections: dict[str, list[str]] = {}
-    current = None
-    header_info: dict = {}
-    preamble_done = False
-    all_lines: list[tuple[str, float]] = []  # (text, font_size)
-
-    for page in doc:
-        blocks = page.get_text("dict")["blocks"]
-        for block in blocks:
-            if block["type"] != 0:
-                continue
-            for line in block["lines"]:
-                line_text = " ".join(span["text"] for span in line["spans"]).strip()
-                if not line_text:
-                    continue
-                # Use max font size in line as heading indicator
-                max_size = max(span["size"] for span in line["spans"])
-                all_lines.append((line_text, max_size))
-
-    # Determine heading threshold: lines significantly larger than median body size
-    if all_lines:
-        sizes = sorted(s for _, s in all_lines)
-        median_size = sizes[len(sizes) // 2]
-        heading_threshold = median_size * 1.15
+def extract_lines(path: str) -> list[str]:
+    ext = Path(path).suffix.lower()
+    if ext == ".pdf":
+        return extract_text_pdf(path)
+    elif ext == ".docx":
+        return extract_text_docx(path)
     else:
-        heading_threshold = 13.0
+        raise ValueError(f"Unsupported file type: {ext}. Use .pdf or .docx")
 
-    for text, size in all_lines:
-        cleaned = clean(text)
-        if not cleaned:
-            continue
+# ─── Header parsing ──────────────────────────────────────────────────────────
 
-        sec = detect_section(cleaned)
-        is_heading = size >= heading_threshold or cleaned.isupper()
+EMAIL_RE  = re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
+PHONE_RE  = re.compile(r"[\+\(]?[0-9][0-9\s\-\(\)]{7,}[0-9]")
+LINKEDIN_RE = re.compile(r"linkedin\.com/in/[\w\-]+", re.I)
+GITHUB_RE   = re.compile(r"github\.com/[\w\-]+", re.I)
 
-        if sec:
-            current = sec
+def parse_header(lines: list[str]) -> dict:
+    header = {"name": "", "email": "", "phone": "", "location": "", "linkedin": "", "github": "", "links": []}
+    # First non-empty line is likely the name
+    for line in lines[:8]:
+        stripped = line.strip()
+        if stripped and not EMAIL_RE.search(stripped) and not PHONE_RE.search(stripped):
+            if len(stripped.split()) >= 2 and stripped[0].isupper():
+                header["name"] = stripped
+                break
+
+    for line in lines[:20]:
+        if EMAIL_RE.search(line) and not header["email"]:
+            header["email"] = EMAIL_RE.search(line).group()
+        if PHONE_RE.search(line) and not header["phone"]:
+            raw = PHONE_RE.search(line).group().strip()
+            header["phone"] = raw
+        if LINKEDIN_RE.search(line) and not header["linkedin"]:
+            m = LINKEDIN_RE.search(line).group()
+            header["linkedin"] = "https://" + m
+        if GITHUB_RE.search(line) and not header["github"]:
+            m = GITHUB_RE.search(line).group()
+            header["github"] = "https://" + m
+        # location heuristic: "City, ST" or "City, Country"
+        loc_match = re.search(r"[A-Z][a-z]+(,\s*[A-Z]{2}|,\s*[A-Z][a-z]+)", line)
+        if loc_match and not header["location"] and "linkedin" not in line.lower():
+            header["location"] = loc_match.group()
+    return header
+
+# ─── Section splitter ────────────────────────────────────────────────────────
+
+def split_sections(lines: list[str]) -> dict[str, list[str]]:
+    """Split raw lines into named sections."""
+    sections: dict[str, list[str]] = {"_header": []}
+    current = "_header"
+    header_done = False
+
+    for line in lines:
+        stripped = line.strip()
+        key = stripped.lower().rstrip(":").strip()
+
+        if key in SECTION_MAP:
+            current = SECTION_MAP[key]
+            header_done = True
             if current not in sections:
                 sections[current] = []
-            preamble_done = True
-            continue
-        elif is_heading and not preamble_done:
-            # Likely the person's name at the top
-            if "name" not in header_info:
-                header_info["name"] = cleaned
             continue
 
-        if not preamble_done:
-            _extract_contact(cleaned, header_info)
-            continue
+        if not header_done:
+            sections["_header"].append(line)
+        else:
+            if current not in sections:
+                sections[current] = []
+            sections[current].append(line)
 
-        if current:
-            sections[current].append(cleaned)
+    return sections
 
-    return {"header": header_info, "sections": sections}
+# ─── Section parsers ─────────────────────────────────────────────────────────
 
-# ─── Post-processor: structure raw lines into typed objects ──────────────────
+def parse_about(lines: list[str]) -> dict:
+    bio = " ".join(l.strip() for l in lines if l.strip())
+    return {"bio": bio}
 
-def structure_sections(raw: dict) -> dict:
-    """
-    Convert raw line lists into typed structured objects per section.
-    This is a best-effort heuristic — works well for standard CV formats.
-    """
-    out = {}
-    s = raw.get("sections", {})
-
-    # ABOUT: just join paragraphs
-    if "about" in s:
-        out["about"] = {"bio": " ".join(s["about"])}
-
-    # EDUCATION
-    if "education" in s:
-        out["education"] = _parse_entries(s["education"], kind="education")
-
-    # EXPERIENCE
-    if "experience" in s:
-        out["experience"] = _parse_entries(s["experience"], kind="experience")
-
-    # SKILLS: try to detect categories
-    if "skills" in s:
-        out["skills"] = _parse_skills(s["skills"])
-
-    # PROJECTS
-    if "projects" in s:
-        out["projects"] = _parse_entries(s["projects"], kind="project")
-
-    # PUBLICATIONS
-    if "publications" in s:
-        out["publications"] = _parse_publications(s["publications"])
-
-    # AWARDS
-    if "awards" in s:
-        out["awards"] = _parse_awards(s["awards"])
-
-    # CERTIFICATIONS
-    if "certifications" in s:
-        out["certifications"] = _parse_entries(s["certifications"], kind="cert")
-
-    # LEADERSHIP
-    if "leadership" in s:
-        out["leadership"] = _parse_entries(s["leadership"], kind="leadership")
-
-    return out
-
-def _parse_entries(lines: list[str], kind: str) -> list[dict]:
-    """Group lines into entry dicts. Each entry starts with a 'title' line."""
+def parse_education(lines: list[str]) -> list[dict]:
     entries = []
-    current: dict | None = None
+    current = None
     for line in lines:
-        line = clean(line)
-        if not line:
+        s = line.strip()
+        if not s:
             continue
-        # Year pattern signals a new entry boundary
-        year_m = re.search(r"\b(19|20)\d{2}\b", line)
-        # Short line (< 80 chars) with no leading dash/bullet = likely a title
-        is_title = len(line) < 90 and not line.startswith(("-", "•", "·", "*", "–"))
-        if is_title and (year_m or (current is None)):
+        # New entry if line looks like a degree title
+        degree_kws = ["b.sc", "m.sc", "phd", "bachelor", "master", "doctor",
+                      "b.s.", "m.s.", "b.e.", "m.e.", "mba"]
+        is_degree = any(kw in s.lower() for kw in degree_kws)
+        # Or institution line (ends with year range or "Present")
+        is_institution = re.search(r"\d{4}", s) and len(s.split()) <= 10
+
+        if is_degree:
             if current:
                 entries.append(current)
-            current = {"title": line, "details": [], "year": ""}
-            if year_m:
-                current["year"] = year_m.group()
-        else:
-            if current is None:
-                current = {"title": line, "details": [], "year": ""}
-            else:
-                current["details"].append(line.lstrip("-•·* –").strip())
+            current = {"degree": s, "institution": "", "location": "", "year": "", "gpa": "", "details": []}
+        elif current and not current["institution"] and "university" in s.lower() or "institute" in s.lower() or "college" in s.lower():
+            current["institution"] = s
+        elif current and re.search(r"\d{4}", s) and not current["year"]:
+            current["year"] = s
+        elif current and re.search(r"gpa|cgpa|grade", s, re.I):
+            current["gpa"] = s
+        elif current:
+            current["details"].append(s)
+
     if current:
         entries.append(current)
     return entries
 
-def _parse_skills(lines: list[str]) -> list[dict]:
-    """Detect skill categories (e.g. 'Languages: Python, R') or flat lists."""
-    categories = []
-    cat: dict | None = None
-    for line in lines:
-        line = clean(line)
-        if not line:
-            continue
-        # Category header pattern: "Label: item1, item2" or "Label:" alone
-        cat_m = re.match(r"^([A-Za-z &/]+):\s*(.*)", line)
-        if cat_m:
-            label = cat_m.group(1).strip()
-            items_str = cat_m.group(2).strip()
-            items = [i.strip() for i in re.split(r"[,;|]", items_str) if i.strip()]
-            if cat:
-                categories.append(cat)
-            cat = {"category": label, "items": items}
-        else:
-            items = [i.strip() for i in re.split(r"[,;|•·]", line) if i.strip()]
-            if cat:
-                cat["items"].extend(items)
-            else:
-                cat = {"category": "General", "items": items}
-    if cat:
-        categories.append(cat)
-    return categories
+def parse_experience(lines: list[str]) -> list[dict]:
+    entries = []
+    current = None
 
-def _parse_publications(lines: list[str]) -> list[dict]:
-    pubs = []
+    for line in lines:
+        s = line.strip()
+        if not s:
+            continue
+        # Detect new role: line with a dash/em-dash separating role from org, or role-like capitalized line
+        is_role = ("—" in s or " - " in s or re.match(r"^[A-Z][^a-z]{0,3}[A-Z]", s)) and len(s.split()) <= 15
+        is_period = re.search(r"\d{4}\s*[–\-]\s*(\d{4}|Present|present|Current|current)", s)
+        is_bullet = s.startswith("•") or s.startswith("-") or s.startswith("·")
+
+        if is_period and not is_bullet:
+            if current:
+                # period belongs to current entry
+                current["period"] = s
+        elif is_bullet:
+            if current:
+                current["details"].append(s.lstrip("•-· ").strip())
+        elif is_role and not is_bullet and len(s) > 8:
+            if current:
+                entries.append(current)
+            current = {"role": s, "org": "", "location": "", "period": "", "details": []}
+        elif current and not current["org"] and len(s) > 3:
+            # Check if it looks like an org/company line
+            if not re.search(r"\d{4}", s):
+                current["org"] = s
+        elif current:
+            current["details"].append(s)
+
+    if current:
+        entries.append(current)
+    return entries
+
+def parse_skills(lines: list[str]) -> dict:
+    """Parse skills into categories."""
+    result = {}
+    current_category = "General"
+
+    for line in lines:
+        s = line.strip()
+        if not s:
+            continue
+        # Detect category header: ends with colon or matches known categories
+        if s.endswith(":") or any(kw in s.lower() for kw in SKILL_CATEGORIES):
+            current_category = s.rstrip(":")
+            result[current_category] = []
+        else:
+            # Split by comma, semicolon, or pipe
+            skills = re.split(r"[,;|]", s)
+            skills = [sk.strip() for sk in skills if sk.strip()]
+            if current_category not in result:
+                result[current_category] = []
+            result[current_category].extend(skills)
+
+    return result
+
+def parse_projects(lines: list[str]) -> list[dict]:
+    entries = []
+    current = None
+
+    for line in lines:
+        s = line.strip()
+        if not s:
+            continue
+        is_bullet = s.startswith("•") or s.startswith("-") or s.startswith("·")
+        is_period = re.search(r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*(20\d\d)", s)
+
+        if is_bullet:
+            if current:
+                current["details"].append(s.lstrip("•-· ").strip())
+        elif is_period and current:
+            current["period"] = s
+        elif not is_bullet and len(s) > 5 and s[0].isupper():
+            if "|" in s or "—" in s:
+                parts = re.split(r"[|—]", s)
+                if current:
+                    entries.append(current)
+                current = {"name": parts[0].strip(), "type": parts[1].strip() if len(parts) > 1 else "", "period": "", "details": []}
+            else:
+                if current:
+                    entries.append(current)
+                current = {"name": s, "type": "", "period": "", "details": []}
+        elif current:
+            current["details"].append(s)
+
+    if current:
+        entries.append(current)
+    return entries
+
+def parse_publications(lines: list[str]) -> list[dict]:
+    entries = []
     current = None
     for line in lines:
-        line = clean(line)
-        if not line:
+        s = line.strip()
+        if not s:
             continue
-        year_m = re.search(r"\b(20\d{2}|19\d{2})\b", line)
-        if year_m or (current is None):
-            if current:
-                pubs.append(current)
-            current = {
-                "title": line,
-                "year": year_m.group() if year_m else "",
-                "venue": "",
-                "type": "journal" if any(w in line.lower() for w in ["journal","ieee","nature","science"]) else "conference"
-            }
-        else:
-            if current:
-                if not current["venue"]:
-                    current["venue"] = line
-    if current:
-        pubs.append(current)
-    return pubs
+        is_bullet = s.startswith("•") or s.startswith("-")
+        is_venue = re.search(r"(EMNLP|IJITCS|NeurIPS|ICML|ACL|ICLR|CVPR|ICCV|AAAI|arXiv|IEEE|ACM)", s)
+        is_year = re.match(r"(Published|Accepted|Submitted)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)?\s*20\d\d", s)
 
-def _parse_awards(lines: list[str]) -> list[dict]:
-    awards = []
+        if is_bullet:
+            if current:
+                current["abstract"] = (current.get("abstract", "") + " " + s.lstrip("•- ")).strip()
+        elif is_venue and current:
+            current["venue"] = s
+        elif is_year and current:
+            current["year"] = s
+        elif not is_bullet and len(s) > 10 and s[0].isupper():
+            if current:
+                entries.append(current)
+            current = {"title": s, "venue": "", "org": "", "year": "", "abstract": ""}
+        elif current:
+            current["abstract"] = (current.get("abstract", "") + " " + s).strip()
+
+    if current:
+        entries.append(current)
+    return entries
+
+def parse_awards(lines: list[str]) -> list[dict]:
+    entries = []
     for line in lines:
-        line = clean(line)
-        if not line:
+        s = line.strip().lstrip("•-· ")
+        if not s:
             continue
-        year_m = re.search(r"\b(20\d{2}|19\d{2})\b", line)
-        awards.append({
-            "name": line,
+        year_m = re.search(r"20\d\d", s)
+        entries.append({
+            "name": re.sub(r"\s*20\d\d\s*", "", s).strip(" |—-"),
             "year": year_m.group() if year_m else "",
             "org": ""
         })
-    return awards
+    return entries
 
-# ─── Main ────────────────────────────────────────────────────────────────────
+# ─── Main assembler ──────────────────────────────────────────────────────────
 
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python parse_document.py <path/to/resume.docx|pdf>")
-        sys.exit(1)
+def parse_resume(path: str) -> dict:
+    lines = extract_lines(path)
+    raw_sections = split_sections(lines)
 
-    doc_path = sys.argv[1]
-    if not os.path.exists(doc_path):
-        print(f"❌  File not found: {doc_path}")
-        sys.exit(1)
+    header = parse_header(raw_sections.get("_header", []))
 
-    ext = Path(doc_path).suffix.lower()
-    print(f"📄  Parsing {ext.upper()} file: {doc_path}")
-
-    if ext == ".docx":
-        raw = parse_docx(doc_path)
-    elif ext == ".pdf":
-        raw = parse_pdf(doc_path)
-    else:
-        print("❌  Unsupported file type. Use .docx or .pdf")
-        sys.exit(1)
-
-    structured = structure_sections(raw)
-
-    output = {
+    result = {
         "meta": {
-            "source_file": Path(doc_path).name,
-            "generated": __import__("datetime").datetime.utcnow().isoformat() + "Z"
+            "source_file": Path(path).name,
+            "generated": datetime.utcnow().isoformat() + "Z",
+            "version": "2.0"
         },
-        "header": raw.get("header", {}),
-        "sections": structured
+        "header": header,
+        "sections": {}
     }
 
-    out_path = Path(__file__).parent.parent / "data" / "portfolio.json"
-    out_path.parent.mkdir(exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+    parser_map = {
+        "about":        parse_about,
+        "education":    parse_education,
+        "experience":   parse_experience,
+        "skills":       parse_skills,
+        "projects":     parse_projects,
+        "publications": parse_publications,
+        "awards":       parse_awards,
+    }
 
-    print(f"✅  Extracted sections: {list(structured.keys())}")
-    print(f"📦  Written to: {out_path}")
+    for section_key, parser_fn in parser_map.items():
+        raw = raw_sections.get(section_key, [])
+        if raw:
+            result["sections"][section_key] = parser_fn(raw)
+
+    return result
+
+# ─── Entry point ─────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 2:
+        print("Usage: python parse_document.py <path/to/resume.pdf|.docx>")
+        sys.exit(1)
+
+    input_path = sys.argv[1]
+    output_path = Path(__file__).parent.parent / "data" / "portfolio.json"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    print(f"📄 Parsing: {input_path}")
+    data = parse_resume(input_path)
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+    print(f"✅ Written to: {output_path}")
+    print(f"   Name:         {data['header']['name']}")
+    print(f"   Sections:     {list(data['sections'].keys())}")
+    for k, v in data['sections'].items():
+        count = len(v) if isinstance(v, list) else len(v.keys()) if isinstance(v, dict) else 1
+        print(f"   └─ {k}: {count} item(s)")
