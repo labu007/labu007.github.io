@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#f5f0e8;--ink:#1a1612;--ink-mid:#3d3530;--ink-soft:#7a6e65;
+  --gold:#c9903a;--gold-light:#e8c87a;--teal:#2a6b6e;--teal-light:#4a9b9e;
+  --card-bg:rgba(245,240,232,0.88);--card-border:rgba(201,144,58,0.25);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--ink);color:var(--ink);min-height:100vh;overflow-x:hidden}
+
+/* ── BACKGROUND ── */
+#bg-layer{position:fixed;inset:0;z-index:0;background:linear-gradient(135deg,#1a1612 0%,#2a2018 40%,#1a2822 100%);transition:background .5s}
+#bg-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity .8s ease}
+#bg-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,8,6,.65) 0%,rgba(10,8,6,.45) 50%,rgba(10,8,6,.72) 100%)}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(10,8,6,.55);border-bottom:1px solid rgba(201,144,58,.15)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--gold);letter-spacing:.02em}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold-light)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--cream);transition:all .3s}
+
+/* ── PHOTO UPLOAD ── */
+#photo-upload-btn{position:fixed;bottom:2rem;right:2rem;z-index:100;background:rgba(201,144,58,.9);color:#fff;border:none;border-radius:50px;padding:.65rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;letter-spacing:.04em;cursor:pointer;display:flex;align-items:center;gap:.5rem;backdrop-filter:blur(8px);transition:background .2s,transform .15s;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+#photo-upload-btn:hover{background:rgba(232,200,122,.95);transform:translateY(-2px)}
+#photo-upload-btn svg{width:16px;height:16px;flex-shrink:0}
+#photo-file-input{display:none}
+
+/* ── MAIN ── */
+#main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:5.5rem 2rem 6rem}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:5rem 0 3.5rem;animation:fadeUp .9s ease both}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.22em;color:var(--gold-light);text-transform:uppercase;margin-bottom:1.2rem;opacity:.85}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5.5rem);font-weight:900;line-height:1.0;color:var(--cream);letter-spacing:-.01em;margin-bottom:.6rem;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.hero-name span{color:var(--gold)}
+.hero-title{font-size:1.05rem;color:rgba(245,240,232,.7);font-weight:300;letter-spacing:.05em;margin-bottom:2rem}
+.hero-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:2.5rem}
+.tag{font-size:.72rem;font-weight:500;letter-spacing:.08em;padding:.35rem .85rem;border-radius:50px;border:1px solid rgba(201,144,58,.4);color:var(--gold-light);background:rgba(201,144,58,.08);text-transform:uppercase}
+.hero-contact{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;font-size:.85rem;color:rgba(245,240,232,.55)}
+.hero-contact a{color:rgba(245,240,232,.65);text-decoration:none;transition:color .2s}
+.hero-contact a:hover{color:var(--gold-light)}
+
+/* ── DIVIDER ── */
+.divider{width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:2.5rem auto}
+
+/* ── SECTION ── */
+section{margin-bottom:2.5rem;animation:fadeUp .7s ease both}
+.section-label{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(201,144,58,.3),transparent)}
+
+/* ── GLASS CARD ── */
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:1.5rem 1.75rem;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ink);margin-bottom:1rem}
+
+/* ── ABOUT ── */
+.summary p{font-size:.96rem;line-height:1.8;color:var(--ink-mid)}
+.gpa-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.gpa-badge{background:rgba(42,107,110,.12);border:1px solid rgba(42,107,110,.3);border-radius:8px;padding:.5rem 1rem;font-size:.82rem;color:var(--teal);font-weight:500}
+
+/* ── EXPERIENCE ── */
+.exp-item{padding-bottom:1.2rem;margin-bottom:1.2rem;border-bottom:1px solid rgba(201,144,58,.15)}
+.exp-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:.4rem}
+.exp-role{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink)}
+.exp-period{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--gold);letter-spacing:.05em;white-space:nowrap}
+.exp-org{font-size:.82rem;color:var(--teal);font-weight:500;margin-bottom:.65rem}
+.exp-bullets{list-style:none;font-size:.85rem;color:var(--ink-mid);line-height:1.7}
+.exp-bullets li{padding-left:1.2rem;position:relative;margin-bottom:.25rem}
+.exp-bullets li::before{content:'·';position:absolute;left:0;color:var(--gold);font-size:1.2rem;line-height:1.3}
+
+/* ── SKILLS ── */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem}
+.skill-group{background:rgba(245,240,232,.82);border:1px solid var(--card-border);border-radius:12px;padding:1rem 1.1rem;backdrop-filter:blur(12px)}
+.skill-group-title{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:.6rem}
+.skill-pills{display:flex;flex-wrap:wrap;gap:.35rem}
+.skill-pill{font-size:.7rem;background:rgba(42,107,110,.1);border:1px solid rgba(42,107,110,.2);color:var(--teal);border-radius:4px;padding:.2rem .55rem;font-weight:500}
+
+/* ── PROJECTS ── */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.project-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:1.25rem 1.4rem;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--ink)}
+.project-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem}
+.project-type{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.project-period{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink-soft);margin-bottom:.5rem}
+.project-desc{font-size:.82rem;color:var(--ink-mid);line-height:1.65}
+
+/* ── PUBLICATIONS ── */
+.pub-item{display:flex;gap:1rem;align-items:flex-start;padding-bottom:1rem;margin-bottom:1rem;border-bottom:1px solid rgba(201,144,58,.15)}
+.pub-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.pub-venue{flex-shrink:0;background:rgba(201,144,58,.12);border:1px solid rgba(201,144,58,.3);border-radius:8px;padding:.4rem .65rem;font-family:'DM Mono',monospace;font-size:.65rem;color:var(--gold);text-align:center;line-height:1.4;letter-spacing:.05em}
+.pub-title{font-size:.92rem;font-weight:500;color:var(--ink);margin-bottom:.3rem}
+.pub-detail{font-size:.8rem;color:var(--ink-soft);line-height:1.6}
+
+/* ── EDUCATION ── */
+.edu-item{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;padding-bottom:1.2rem;margin-bottom:1.2rem;border-bottom:1px solid rgba(201,144,58,.15)}
+.edu-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.edu-degree{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.2rem}
+.edu-school{font-size:.82rem;color:var(--teal);margin-bottom:.35rem}
+.edu-detail{font-size:.78rem;color:var(--ink-soft);line-height:1.6}
+.edu-gpa{flex-shrink:0;font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--gold);text-align:right}
+.edu-gpa small{display:block;font-family:'DM Sans',sans-serif;font-size:.65rem;color:var(--ink-soft);text-align:right;font-weight:400;letter-spacing:.05em}
+
+/* ── AWARDS ── */
+.awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem}
+.award-card{background:rgba(245,240,232,.82);border:1px solid var(--card-border);border-radius:12px;padding:1rem 1.1rem;backdrop-filter:blur(12px)}
+.award-name{font-size:.88rem;font-weight:500;color:var(--ink);margin-bottom:.25rem}
+.award-meta{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--gold);letter-spacing:.06em}
+.award-org{font-size:.75rem;color:var(--ink-soft);margin-top:.2rem}
+
+/* ── MOBILE MENU ── */
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:49;background:rgba(10,8,6,.96);padding:5rem 2rem 2rem;flex-direction:column;gap:2rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:1.3rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.75);text-decoration:none;font-family:'Playfair Display',serif;border-bottom:1px solid rgba(201,144,58,.15);padding-bottom:1rem}
+.mobile-menu a:hover{color:var(--gold)}
+
+footer{text-align:center;padding:2rem 0 1rem;font-size:.75rem;color:rgba(245,240,232,.3);letter-spacing:.08em}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+section:nth-child(2){animation-delay:.05s}
+section:nth-child(3){animation-delay:.1s}
+section:nth-child(4){animation-delay:.15s}
+section:nth-child(5){animation-delay:.2s}
+section:nth-child(6){animation-delay:.25s}
+section:nth-child(7){animation-delay:.3s}
+section:nth-child(8){animation-delay:.35s}
+
+@media(max-width:700px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  #main{padding:4.5rem 1rem 5rem}
+  .hero{padding:3rem 0 2rem}
+  .hero-name{font-size:2.8rem}
+  .gpa-row{flex-wrap:wrap}
+  #photo-upload-btn{bottom:1rem;right:1rem;font-size:.72rem;padding:.55rem .9rem}
+}
+</style>
+</head>
+<body>
+
+<div id="bg-layer">
+  <div id="bg-photo"></div>
+  <div id="bg-overlay"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" id="nav-logo">DB</div>
+  <div class="nav-links" id="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#publications">Research</a>
+    <a href="#education">Education</a>
+  </div>
+  <div class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" role="button">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#experience" onclick="closeMobile()">Experience</a>
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#publications" onclick="closeMobile()">Research</a>
+  <a href="#education" onclick="closeMobile()">Education</a>
+</div>
+
+<!-- Photo Upload -->
+<button id="photo-upload-btn" title="Upload background photo">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+    <polyline points="21,15 16,10 5,21"/>
+  </svg>
+  Set Background
+</button>
+<input type="file" id="photo-file-input" accept="image/*"/>
+
+<div id="main">
+  <div id="portfolio-root"></div>
+  <footer id="footer"></footer>
+</div>
+
+<script>
+// ──────────────────────────────────────────────
+//  RENDER ENGINE — reads portfolio.json → HTML
+// ──────────────────────────────────────────────
+
+const DATA_URL = 'data/portfolio.json';
+
+async function loadData() {
+  try {
+    const r = await fetch(DATA_URL + '?v=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } catch(e) {
+    console.error('Could not load portfolio.json:', e);
+    return null;
+  }
+}
+
+function esc(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ── HERO ──
+function renderHero(header, about, skills) {
+  const firstName = header.name.split(' ')[0] || '';
+  const lastName  = header.name.split(' ').slice(1).join(' ') || '';
+
+  // Derive top skill tags from skills keys or a fixed set
+  const skillKeys = skills ? Object.keys(skills) : [];
+  const tagLabels = skillKeys.slice(0,6);
+
+  const contactItems = [];
+  if (header.location) contactItems.push(`<span>📍 ${esc(header.location)}</span>`);
+  if (header.phone)    contactItems.push(`<a href="tel:${esc(header.phone)}">${esc(header.phone)}</a>`);
+  if (header.email)    contactItems.push(`<a href="mailto:${esc(header.email)}">${esc(header.email)}</a>`);
+  if (header.linkedin) contactItems.push(`<a href="${esc(header.linkedin)}" target="_blank" rel="noopener">LinkedIn ↗</a>`);
+  if (header.github)   contactItems.push(`<a href="${esc(header.github)}" target="_blank" rel="noopener">GitHub ↗</a>`);
+
+  return `
+<div class="hero">
+  <p class="hero-eyebrow">Machine Learning Engineer &amp; Data Scientist</p>
+  <h1 class="hero-name">${esc(firstName)} <span>${esc(lastName)}</span></h1>
+  <p class="hero-title">NLP · Computer Vision · Generative AI · Predictive Analytics</p>
+  <div class="hero-tags">
+    ${tagLabels.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}
+  </div>
+  <div class="hero-contact">${contactItems.join('')}</div>
+</div>
+<div class="divider"></div>`;
+}
+
+// ── ABOUT ──
+function renderAbout(about) {
+  if (!about) return '';
+  const bio = about.bio || '';
+  // Smart badge extraction
+  const gpaMatch  = bio.match(/GPA[\s:]+(\d\.\d+)/i);
+  const pubMatch  = bio.match(/EMNLP|NeurIPS|ICML|ACL|CVPR/i);
+  const badges = [];
+  if (gpaMatch)  badges.push(`GPA ${gpaMatch[1]} — M.Sc. Data Science, UNT`);
+  if (pubMatch)  badges.push(`${pubMatch[0]} 2025 Published`);
+
+  return `
+<section id="about">
+  <p class="section-label">About</p>
+  <div class="card summary">
+    <p>${esc(bio)}</p>
+    ${badges.length ? `<div class="gpa-row">${badges.map(b=>`<div class="gpa-badge">${esc(b)}</div>`).join('')}</div>` : ''}
+  </div>
+</section>`;
+}
+
+// ── EXPERIENCE ──
+function renderExperience(exp) {
+  if (!exp || !exp.length) return '';
+  const items = exp.map(e => `
+<div class="exp-item">
+  <div class="exp-header">
+    <span class="exp-role">${esc(e.role)}</span>
+    <span class="exp-period">${esc(e.period)}</span>
+  </div>
+  <div class="exp-org">${esc(e.org)}${e.location ? ' · ' + esc(e.location) : ''}</div>
+  ${e.details && e.details.length ? `<ul class="exp-bullets">${e.details.map(d=>`<li>${esc(d)}</li>`).join('')}</ul>` : ''}
+</div>`).join('');
+
+  return `
+<section id="experience">
+  <p class="section-label">Experience</p>
+  <div class="card">${items}</div>
+</section>`;
+}
+
+// ── SKILLS ──
+function renderSkills(skills) {
+  if (!skills) return '';
+  const groups = Object.entries(skills).map(([cat, items]) => {
+    if (!Array.isArray(items) || !items.length) return '';
+    return `
+<div class="skill-group">
+  <div class="skill-group-title">${esc(cat)}</div>
+  <div class="skill-pills">${items.map(s=>`<span class="skill-pill">${esc(s)}</span>`).join('')}</div>
+</div>`;
+  }).join('');
+
+  return `
+<section id="skills">
+  <p class="section-label">Technical Skills</p>
+  <div class="skills-grid">${groups}</div>
+</section>`;
+}
+
+// ── PROJECTS ──
+function renderProjects(projects) {
+  if (!projects || !projects.length) return '';
+  const cards = projects.map(p => `
+<div class="project-card">
+  <div class="project-name">${esc(p.name)}</div>
+  <div class="project-type">${esc(p.type)}</div>
+  ${p.period ? `<div class="project-period">${esc(p.period)}</div>` : ''}
+  <p class="project-desc">${p.details && p.details.length ? esc(p.details[0]) : ''}</p>
+</div>`).join('');
+
+  return `
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <div class="projects-grid">${cards}</div>
+</section>`;
+}
+
+// ── PUBLICATIONS ──
+function renderPublications(pubs) {
+  if (!pubs || !pubs.length) return '';
+  const items = pubs.map(p => `
+<div class="pub-item">
+  <div class="pub-venue">${esc(p.venue || '?')}<br/>${esc(p.year || '')}</div>
+  <div>
+    <div class="pub-title">${esc(p.title)}</div>
+    <div class="pub-detail">${esc(p.abstract || p.org || '')}</div>
+  </div>
+</div>`).join('');
+
+  return `
+<section id="publications">
+  <p class="section-label">Publications &amp; Research</p>
+  <div class="card">${items}</div>
+</section>`;
+}
+
+// ── EDUCATION ──
+function renderEducation(edu) {
+  if (!edu || !edu.length) return '';
+  const items = edu.map(e => {
+    const gpaNum = e.gpa ? e.gpa.split('/')[0].trim() : '';
+    return `
+<div class="edu-item">
+  <div>
+    <div class="edu-degree">${esc(e.degree)}</div>
+    <div class="edu-school">${esc(e.institution)}${e.location ? ' · ' + esc(e.location) : ''}</div>
+    <div class="edu-detail">${esc(e.year)}${e.details && e.details.length ? ' · ' + e.details.map(esc).join(' · ') : ''}</div>
+  </div>
+  ${gpaNum ? `<div class="edu-gpa">${esc(gpaNum)}<small>/ 4.00</small></div>` : ''}
+</div>`;
+  }).join('');
+
+  return `
+<section id="education">
+  <p class="section-label">Education</p>
+  <div class="card">${items}</div>
+</section>`;
+}
+
+// ── AWARDS ──
+function renderAwards(awards) {
+  if (!awards || !awards.length) return '';
+  const cards = awards.map(a => `
+<div class="award-card">
+  <div class="award-name">${esc(a.name)}</div>
+  <div class="award-meta">${esc(a.year)}</div>
+  ${a.org ? `<div class="award-org">${esc(a.org)}</div>` : ''}
+</div>`).join('');
+
+  return `
+<section id="awards">
+  <p class="section-label">Honors &amp; Awards</p>
+  <div class="awards-grid">${cards}</div>
+</section>`;
+}
+
+// ── MAIN RENDER ──
+async function render() {
+  const root   = document.getElementById('portfolio-root');
+  const footer = document.getElementById('footer');
+
+  const data = await loadData();
+
+  if (!data) {
+    root.innerHTML = `<div class="card summary" style="text-align:center;color:var(--ink-mid);padding:3rem;">
+      <p>⚠️ Could not load <code>data/portfolio.json</code>.<br/>Make sure the file exists or run the parser first.</p>
+    </div>`;
+    return;
+  }
+
+  const h  = data.header   || {};
+  const s  = data.sections || {};
+
+  // Update page title & nav logo
+  if (h.name) {
+    document.title = h.name + ' — Portfolio';
+    const initials = h.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+    document.getElementById('nav-logo').textContent = initials;
+  }
+
+  root.innerHTML =
+    renderHero(h, s.about, s.skills) +
+    renderAbout(s.about) +
+    renderExperience(s.experience) +
+    renderSkills(s.skills) +
+    renderProjects(s.projects) +
+    renderPublications(s.publications) +
+    renderEducation(s.education) +
+    renderAwards(s.awards);
+
+  footer.textContent = h.name + (h.location ? ' · ' + h.location : '') + ' · ML Engineer & Data Scientist';
+}
+
+// ── PHOTO UPLOAD ──
+const photoBtn   = document.getElementById('photo-upload-btn');
+const photoInput = document.getElementById('photo-file-input');
+const bgPhoto    = document.getElementById('bg-photo');
+
+photoBtn.addEventListener('click', () => photoInput.click());
+photoInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    bgPhoto.style.backgroundImage = `url(${ev.target.result})`;
+    bgPhoto.style.opacity = '1';
+    photoBtn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/>
+      </svg>
+      Change Photo`;
+  };
+  reader.readAsDataURL(file);
+  photoInput.value = '';
+});
+
+// ── HAMBURGER ──
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+function closeMobile() {
+  mobileMenu.classList.remove('open');
+  hamburger.setAttribute('aria-expanded','false');
+  hamburger.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='';});
+}
+hamburger.addEventListener('click',()=>{
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', open);
+  const s = hamburger.querySelectorAll('span');
+  if (open){
+    s[0].style.transform='rotate(45deg) translate(4px,4px)';
+    s[1].style.opacity='0';
+    s[2].style.transform='rotate(-45deg) translate(4px,-4px)';
+  } else { closeMobile(); }
+});
+
+// ── BOOT ──
+render();
+</script>
+</body>
+</html>
