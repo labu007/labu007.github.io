@@ -3,13 +3,13 @@ name: 📄 Parse CV & Update Portfolio
 on:
   push:
     paths:
-      - 'docs-upload/**'   # triggers whenever you upload a file here
+      - 'docs-upload/**'
 
 jobs:
   parse-and-update:
     runs-on: ubuntu-latest
     permissions:
-      contents: write      # needed to commit portfolio.json back
+      contents: write
 
     steps:
       - name: ⬇️ Checkout repository
@@ -21,34 +21,38 @@ jobs:
           python-version: '3.11'
 
       - name: 📦 Install dependencies
-        run: |
-          pip install python-docx pymupdf
+        run: pip install python-docx pymupdf
 
       - name: 🔍 Find uploaded document
         id: find_doc
         run: |
-          # Pick the most recently modified .docx or .pdf in docs-upload/
-          FILE=$(find docs-upload -type f \( -name "*.docx" -o -name "*.pdf" \) | head -n 1)
+          FILE=$(find docs-upload -type f \( -name "*.docx" -o -name "*.pdf" \) | sort | head -n 1)
           if [ -z "$FILE" ]; then
-            echo "No .docx or .pdf found in docs-upload/"
+            echo "❌ No .docx or .pdf found in docs-upload/"
             exit 1
           fi
           echo "Found: $FILE"
           echo "doc_path=$FILE" >> $GITHUB_OUTPUT
 
       - name: ⚙️ Run parser
-        run: |
-          python scripts/parse_document.py "${{ steps.find_doc.outputs.doc_path }}"
+        run: python scripts/parse_document.py "${{ steps.find_doc.outputs.doc_path }}"
 
       - name: ✅ Verify output
         run: |
-          echo "Generated portfolio.json:"
-          cat data/portfolio.json | python3 -m json.tool | head -60
+          echo "Generated portfolio.json preview:"
+          python3 -c "
+          import json
+          d = json.load(open('data/portfolio.json'))
+          print('Name:', d['header']['name'])
+          for k, v in d['sections'].items():
+              n = len(v) if isinstance(v, list) else len(v) if isinstance(v, dict) else 1
+              print(f'  {k}: {n} item(s)')
+          "
 
       - name: 💾 Commit updated portfolio.json
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/portfolio.json
-          git diff --staged --quiet || git commit -m "🤖 Auto-update portfolio.json from $(basename ${{ steps.find_doc.outputs.doc_path }})"
+          git diff --staged --quiet || git commit -m "🤖 Auto-update portfolio from $(basename ${{ steps.find_doc.outputs.doc_path }})"
           git push
