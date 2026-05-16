@@ -12,7 +12,7 @@ portfolio-system/
 ├── data/
 │   └── portfolio.json             ← Auto-generated from your resume (commit this)
 ├── docs-upload/
-│   └── Dibakar_Barua_Resume.pdf   ← DROP YOUR RESUME HERE to trigger auto-update
+│   └── Resume.pdf   ← DROP YOUR RESUME HERE to trigger auto-update
 ├── scripts/
 │   └── parse_document.py          ← Python parser (PDF + DOCX)
 └── .github/
