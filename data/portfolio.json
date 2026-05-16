@@ -1,0 +1,179 @@
+{
+  "meta": {
+    "source_file": "Dibakar_Barua_Resume.pdf",
+    "generated": "2026-05-16T00:00:00.000Z",
+    "version": "2.0"
+  },
+  "header": {
+    "name": "Dibakar Barua",
+    "email": "dibakarlabu@gmail.com",
+    "phone": "940-597-7847",
+    "location": "Denton, TX",
+    "linkedin": "https://linkedin.com/in/dibakarbarua",
+    "github": "https://github.com/dibakarlabu",
+    "links": []
+  },
+  "sections": {
+    "about": {
+      "bio": "Machine Learning Engineer and Data Scientist with 3+ years of experience building and deploying ML/AI systems across NLP, Computer Vision, and predictive analytics. Proficient in Python, PyTorch, TensorFlow, and Scikit-learn, with end-to-end experience spanning data ingestion, feature engineering, model training, evaluation, and production deployment. Graduate researcher at the Visual Computing and Biometric Security Lab (UNT) applying deep learning to Autism Spectrum Disorder detection. Strong academic record (GPA 3.91, M.Sc. Data Science, University of North Texas). Targeting roles in Machine Learning Engineering, Data Science, Applied AI, or Data Analytics."
+    },
+    "education": [
+      {
+        "degree": "M.Sc. in Data Science",
+        "institution": "University of North Texas",
+        "location": "Denton, TX",
+        "year": "Expected Dec 2026",
+        "gpa": "3.91 / 4.00",
+        "details": [
+          "Coursework: Machine Learning, Deep Learning, Health Informatics, Statistical Modeling, Big Data Analytics, Data Visualization"
+        ]
+      },
+      {
+        "degree": "B.Sc. in Computer Science and Software Engineering",
+        "institution": "American International University Bangladesh",
+        "location": "Dhaka, Bangladesh",
+        "year": "Aug 2021",
+        "gpa": "3.95 / 4.00",
+        "details": [
+          "Dean's Honors List",
+          "Summa Cum Laude"
+        ]
+      }
+    ],
+    "experience": [
+      {
+        "role": "Graduate Research Assistant — Computer Vision / Deep Learning",
+        "org": "Visual Computing & Biometric Security Lab, University of North Texas",
+        "location": "Denton, TX",
+        "period": "Aug 2025 – Present",
+        "details": [
+          "Conducting computer vision research on Autism Spectrum Disorder (ASD) detection using CNNs trained on behavioral and image-based datasets.",
+          "Designing and evaluating deep learning architectures for ASD trait classification; applying transfer learning, data augmentation, and Grad-CAM for model interpretability.",
+          "Contributing to an active lab publication pipeline in collaboration with faculty and graduate researchers."
+        ]
+      },
+      {
+        "role": "Student Assistant",
+        "org": "University of North Texas",
+        "location": "Denton, TX",
+        "period": "Jun 2025 – Present",
+        "details": [
+          "Developed skills in team coordination, event management, and time management in a high-traffic service environment."
+        ]
+      },
+      {
+        "role": "Junior Machine Learning Engineer",
+        "org": "Brain Station 23",
+        "location": "Dhaka, Bangladesh",
+        "period": "Mar 2022 – Dec 2024",
+        "details": [
+          "Designed and delivered end-to-end ML pipelines across 5+ client engagements spanning NLP, classification, and regression tasks using Python, PyTorch, and Scikit-learn.",
+          "Cleaned and preprocessed datasets with 100K+ records, resolving class imbalance, missing values, and feature drift; improved baseline model accuracy by up to 15% through hyperparameter tuning and ensemble methods.",
+          "Trained supervised learning models including Random Forest, XGBoost, LSTM, and BERT; presented results via Tableau and Matplotlib dashboards to non-technical stakeholders.",
+          "Collaborated with software engineers, product managers, and domain experts to align model outputs with deployment requirements; documented architecture, metrics, and handoff procedures."
+        ]
+      },
+      {
+        "role": "GIS & Data Visualization Intern",
+        "org": "Bakhrabad Gas Distribution Co. Ltd.",
+        "location": "Cumilla, Bangladesh",
+        "period": "Sep 2021 – Jan 2022",
+        "details": [
+          "Digitized 161 analog infrastructure maps and visualized spatial data for CNG stations and industrial facilities using QGIS under a government-sponsored digital transformation initiative."
+        ]
+      },
+      {
+        "role": "Teaching Assistant — Object-Oriented Programming (C#)",
+        "org": "American International University Bangladesh",
+        "location": "Dhaka, Bangladesh",
+        "period": "Jun 2021 – Aug 2021",
+        "details": [
+          "Supported 80+ students on programming assignments in C#; held lab sessions covering Visual Studio, XAMPP, and GitHub."
+        ]
+      }
+    ],
+    "skills": {
+      "Programming Languages": ["Python", "SQL", "C#", "C++", "Java", "MATLAB"],
+      "ML / Deep Learning": ["PyTorch", "TensorFlow", "Keras", "Scikit-learn", "XGBoost", "Random Forest", "LSTM", "CNN", "EfficientNet", "ResNet", "Transfer Learning"],
+      "NLP & Generative AI": ["BERT", "GPT", "HuggingFace Transformers", "RAG", "LLM Fine-tuning", "NLTK", "SpaCy", "Prompt Engineering"],
+      "Computer Vision": ["OpenCV", "EfficientNet-B0", "ResNet-50", "CNNs", "Grad-CAM", "Image Classification", "Object Detection", "Image Denoising"],
+      "Data Science & Analytics": ["Pandas", "NumPy", "SciPy", "Feature Engineering", "Statistical Modeling", "A/B Testing", "Hypothesis Testing", "Signal Detection"],
+      "MLOps & Tools": ["Docker", "Git", "GitHub", "Streamlit", "REST APIs", "Model Deployment", "Jupyter Notebook", "Google Colab", "VS Code"],
+      "Databases & Cloud": ["AWS S3", "AWS EC2", "MS SQL Server", "MySQL", "Oracle Database"],
+      "Visualization": ["Tableau", "Power BI", "Matplotlib", "Seaborn"]
+    },
+    "projects": [
+      {
+        "name": "PhysicsDenoiseNet",
+        "type": "Deep Learning — Image Denoising",
+        "period": "Jan – Apr 2026",
+        "details": [
+          "Built a physics-informed deep learning model for real-world image denoising using PyTorch, with custom loss functions, dataset loaders, and server-ready training scripts.",
+          "Trained and evaluated on SIDD Small, BSD68, and LOL benchmark datasets; assessed performance using PSNR, SSIM, LPIPS, and FID metrics.",
+          "Generated CSV-based training logs, visualizations, and research-style LaTeX reports; analyzed failure modes including near-black output prediction on low-light inputs."
+        ]
+      },
+      {
+        "name": "Pharmacovigilance Signal Detection — GLP-1 Receptor Agonists",
+        "type": "Health Informatics / Data Analytics",
+        "period": "Jan – Apr 2026",
+        "details": [
+          "Analyzed FDA FAERS adverse event reports (2015–2025) for GLP-1 receptor agonists; built a scalable data pipeline for large-scale drug safety analysis.",
+          "Applied statistical signal detection methods (PRR, ROR) to identify potential psychiatric, gastrointestinal, and multiorgan adverse drug reaction signals.",
+          "Cross-validated findings against FDA drug labeling and peer-reviewed safety references."
+        ]
+      },
+      {
+        "name": "Clickbait Headline Detection",
+        "type": "NLP / Web App — University of North Texas",
+        "period": "Jan – Apr 2025",
+        "details": [
+          "Built and compared Logistic Regression (TF-IDF), LSTM, and fine-tuned BERT classifiers for real-time clickbait detection; BERT achieved 99% classification accuracy.",
+          "Deployed inference app via Streamlit with a REST API backend; managed full pipeline from preprocessing through evaluation (F1, precision, recall, AUC)."
+        ]
+      },
+      {
+        "name": "AI-Based Diabetic Retinopathy Detection",
+        "type": "Computer Vision — University of North Texas",
+        "period": "Jan – Apr 2025",
+        "details": [
+          "Benchmarked EfficientNet-B0 and ResNet-50 for multi-class retinopathy grading from fundus images; EfficientNet-B0 reached 80% accuracy across 5 severity levels.",
+          "Applied transfer learning, data augmentation, and Grad-CAM saliency maps to address class imbalance and improve clinical interpretability."
+        ]
+      }
+    ],
+    "publications": [
+      {
+        "title": "Speaking at the Right Level: Literacy-Controlled Counterspeech Generation with RAG-RL",
+        "venue": "EMNLP 2025",
+        "org": "Top-tier ACL venue",
+        "year": "Aug 2025",
+        "abstract": "Developed an LLM-based counterspeech generation system combining RAG and Reinforcement Learning to generate literacy-level-tailored responses to online hate speech; evaluated using Flesch-Kincaid readability, fluency, and relevance metrics."
+      },
+      {
+        "title": "Autism Spectrum Disorder (ASD) Prediction Using Machine Learning",
+        "venue": "IJITCS",
+        "org": "International Journal of Information Technology and Computer Science",
+        "year": "Aug 2022",
+        "abstract": "Developed a hybrid SVM + CNN model achieving 94% accuracy on ASD trait prediction from behavioral datasets; integrated real-time Tableau dashboard via REST API for cross-cohort analysis."
+      }
+    ],
+    "awards": [
+      {
+        "name": "EMNLP 2025 Publication",
+        "year": "2025",
+        "org": "Top-tier NLP venue — ACL Anthology"
+      },
+      {
+        "name": "Dean's Honors List",
+        "year": "2021",
+        "org": "American International University Bangladesh"
+      },
+      {
+        "name": "Summa Cum Laude",
+        "year": "2021",
+        "org": "American International University Bangladesh"
+      }
+    ]
+  }
+}
