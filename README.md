@@ -1,4 +1,4 @@
-# 🎯 Dibakar Barua — Smart Portfolio System
+# Portfolio System
 
 A **document-driven portfolio website** that automatically reads your resume (`.docx` or `.pdf`) and updates your live site. No manual HTML editing required.
 
@@ -56,63 +56,23 @@ Your site is live at `https://yourusername.github.io`
 Structure your PDF or Word doc with these **exact section headings**:
 
 ```
-DIBAKAR BARUA
-Denton, TX | 940-597-7847 | dibakarlabu@gmail.com | LinkedIn
+First_Name Last_Name
+Address | Contact | email | LinkedIn
 
 PROFESSIONAL SUMMARY
-Machine Learning Engineer and Data Scientist with 3+ years of experience...
+Write summary of your own.
 
 EDUCATION
-M.Sc. in Data Science
-University of North Texas | Denton, TX
-Expected Dec 2026 | GPA: 3.91 / 4.00
-Coursework: Machine Learning, Deep Learning, ...
 
-B.Sc. in Computer Science and Software Engineering
-American International University Bangladesh | Dhaka, Bangladesh
-Aug 2021 | GPA: 3.95 / 4.00
-Dean's Honors List, Summa Cum Laude
 
 EXPERIENCE
-Graduate Research Assistant — Computer Vision / Deep Learning
-Visual Computing & Biometric Security Lab, University of North Texas
-Aug 2025 – Present
-• Conducting computer vision research on Autism Spectrum Disorder (ASD) detection...
-• Designing and evaluating deep learning architectures...
 
-Junior Machine Learning Engineer
-Brain Station 23 | Dhaka, Bangladesh
-Mar 2022 – Dec 2024
-• Designed and delivered end-to-end ML pipelines...
-• Cleaned and preprocessed datasets with 100K+ records...
 
 TECHNICAL SKILLS
-Programming Languages: Python, SQL, C#, C++, Java, MATLAB
-ML / Deep Learning: PyTorch, TensorFlow, Keras, Scikit-learn, XGBoost, LSTM, CNN
-NLP & Generative AI: BERT, GPT, HuggingFace Transformers, RAG, LLM Fine-tuning
-Computer Vision: OpenCV, EfficientNet-B0, ResNet-50, Grad-CAM
-Data Science & Analytics: Pandas, NumPy, SciPy, Feature Engineering, A/B Testing
-MLOps & Tools: Docker, Git, Streamlit, REST APIs, Model Deployment
-Databases & Cloud: AWS S3, AWS EC2, MySQL, Oracle Database
-Visualization: Tableau, Power BI, Matplotlib, Seaborn
+
 
 MACHINE LEARNING & DATA SCIENCE PROJECTS
-PhysicsDenoiseNet | Deep Learning — Image Denoising | Jan – Apr 2026
-• Built a physics-informed deep learning model for real-world image denoising...
-• Trained on SIDD Small, BSD68, and LOL benchmark datasets...
 
-Clickbait Headline Detection | NLP / Web App | Jan – Apr 2025
-• Built and compared Logistic Regression, LSTM, and fine-tuned BERT classifiers...
-• BERT achieved 99% classification accuracy...
-
-PUBLICATIONS & RESEARCH
-Speaking at the Right Level: Literacy-Controlled Counterspeech Generation with RAG-RL
-EMNLP 2025 | Aug 2025
-• Developed an LLM-based counterspeech generation system combining RAG and RL...
-
-Autism Spectrum Disorder (ASD) Prediction Using Machine Learning
-IJITCS | Aug 2022
-• Developed a hybrid SVM + CNN model achieving 94% accuracy...
 ```
 
 ---
@@ -137,7 +97,7 @@ python scripts/parse_document.py docs-upload/Dibakar_Barua_Resume.pdf
 {
   "meta": { "source_file": "...", "generated": "...", "version": "2.0" },
   "header": {
-    "name": "Dibakar Barua",
+    "name": "First_name Last_name",
     "email": "...", "phone": "...", "location": "...",
     "linkedin": "...", "github": "..."
   },
